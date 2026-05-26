@@ -1,0 +1,1506 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SIGMAC Pro v4 — بلدية وجانة</title>
+<style>
+:root{
+  /* ألوان وطنية جزائرية */
+  --dz-green:#006233;--dz-green2:#007a3d;--dz-green3:#00a651;--dz-green4:#e8f5ee;
+  --dz-red:#d21034;--dz-red2:#b00d2b;--dz-red3:#ff3355;--dz-red4:#fde8ec;
+  --dz-white:#ffffff;--dz-cream:#f8faf9;
+  /* خلفيات */
+  --bg:#0a1a0f;--bg2:#0c1f13;--bg3:#0f2618;--card:#122015;--card2:#162a1a;
+  --border:#1e3d24;--border2:#254d2d;
+  /* ألوان وظيفية */
+  --primary:var(--dz-green2);--primary2:var(--dz-green);--primary3:var(--dz-green3);
+  --accent:var(--dz-red);--accent2:var(--dz-red2);--accent3:var(--dz-red3);
+  --gold:#f59e0b;--gold2:#d97706;--purple:#8b5cf6;--cyan:#06b6d4;--orange:#f97316;
+  --green:var(--dz-green3);--red:var(--dz-red3);
+  --txt:#e8f5ee;--txt2:#9bbfab;--txt3:#5a8a6a;
+  --shadow:0 8px 32px rgba(0,0,0,.6);
+  --glow:0 0 24px rgba(0,122,61,.35);
+  --glow-red:0 0 24px rgba(210,16,52,.3);
+  --grad:linear-gradient(135deg,var(--dz-green),var(--dz-green3));
+  --grad-flag:linear-gradient(90deg,var(--dz-green) 0%,var(--dz-green) 48%,#fff 48%,#fff 52%,var(--dz-red) 52%);
+  --grad-accent:linear-gradient(135deg,var(--dz-green2),var(--dz-red2));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',Tahoma,Arial,sans-serif;background:var(--bg);color:var(--txt);font-size:13px;direction:rtl}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ── LAYOUT ── */
+#app{display:flex;height:100vh;overflow:hidden;flex-direction:column}
+#header-national{background:linear-gradient(135deg,var(--dz-green) 0%,#004d26 50%,var(--dz-green2) 100%);padding:0;flex-shrink:0;position:relative;overflow:hidden;border-bottom:3px solid var(--dz-red)}
+#header-national::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hn-inner{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;position:relative;z-index:1}
+.hn-right{display:flex;align-items:center;gap:14px}
+.hn-emblem{width:54px;height:54px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 16px rgba(0,0,0,.3);backdrop-filter:blur(4px)}
+.hn-titles{text-align:right}
+.hn-t1{font-size:11px;color:rgba(255,255,255,.75);letter-spacing:1px;font-weight:500}
+.hn-t2{font-size:16px;font-weight:900;color:#fff;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hn-t3{font-size:11px;color:rgba(255,255,255,.6);margin-top:1px}
+.hn-left{display:flex;align-items:center;gap:10px}
+.hn-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:5px 12px;border-radius:20px;font-size:11px;color:rgba(255,255,255,.9);font-weight:600;backdrop-filter:blur(4px)}
+.hn-crescent{font-size:32px;opacity:.8;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.flag-stripe{height:4px;background:var(--grad-flag)}
+
+/* ── TOPNAV TABS ── */
+#topnav{background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:50px}
+.topnav-tabs{display:flex;gap:2px;overflow-x:auto;height:100%;align-items:center}
+.topnav-tabs::-webkit-scrollbar{height:0}
+.tnav{display:flex;align-items:center;gap:7px;padding:8px 14px;cursor:pointer;color:var(--txt3);font-size:12px;font-weight:600;border-bottom:2px solid transparent;white-space:nowrap;transition:.15s;height:100%;position:relative}
+.tnav:hover{color:var(--txt);background:rgba(0,122,61,.1)}
+.tnav.on{color:var(--dz-green3);border-bottom-color:var(--dz-green3);background:rgba(0,122,61,.12);font-weight:700}
+.tnav-ic{font-size:15px}
+.tnav-badge{background:var(--dz-red);color:#fff;border-radius:20px;font-size:9px;font-weight:700;padding:1px 6px;min-width:16px;text-align:center}
+.topnav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+
+/* ── SECONDARY TOPBAR ── */
+#subtopbar{height:44px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0}
+.stb-title{font-size:14px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+.stb-right{display:flex;align-items:center;gap:8px}
+
+/* ── CONTENT ── */
+#content{flex:1;overflow-y:auto;padding:20px}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px}
+.card-glow{box-shadow:0 0 0 1px var(--border),var(--glow)}
+.card-red-glow{box-shadow:0 0 0 1px rgba(210,16,52,.3),var(--glow-red)}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:13px 17px;border-bottom:1px solid var(--border)}
+.ct{font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:8px}
+.cb{padding:16px 17px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:13px;margin-bottom:18px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;position:relative;overflow:hidden;transition:.2s}
+.stat-card:hover{transform:translateY(-2px);border-color:var(--border2)}
+.stat-card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;border-radius:0 14px 14px 0;background:var(--sc,var(--dz-green3))}
+.stat-val{font-size:22px;font-weight:900;line-height:1;margin:7px 0 4px}
+.stat-lbl{font-size:10px;color:var(--txt3);font-weight:600;letter-spacing:.5px}
+.stat-ic{font-size:26px;margin-bottom:5px}
+
+/* ── SUMMARY BANNER ── */
+.summary-banner{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:18px;overflow:hidden}
+.sb-item{padding:14px 16px;text-align:center;border-left:1px solid var(--border);position:relative}
+.sb-item:last-child{border-left:none}
+.sb-item::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px}
+.sb-val{font-size:20px;font-weight:900;line-height:1}
+.sb-lbl{font-size:10px;color:var(--txt3);margin-top:3px}
+.sb-ic{font-size:20px;margin-bottom:4px}
+
+/* ── TABLE ── */
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:480px}
+th{padding:9px 13px;text-align:right;font-size:10px;font-weight:700;color:var(--txt3);background:rgba(0,0,0,.25);border-bottom:1px solid var(--border);letter-spacing:.5px;white-space:nowrap}
+td{padding:9px 13px;border-bottom:1px solid var(--border);font-size:12px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,122,61,.06)}
+.clickable-row{cursor:pointer}
+.clickable-row:hover td{background:rgba(0,122,61,.1)!important}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge-primary{background:rgba(0,122,61,.2);color:var(--dz-green3);border:1px solid rgba(0,122,61,.35)}
+.badge-green{background:rgba(0,166,81,.15);color:var(--dz-green3);border:1px solid rgba(0,166,81,.3)}
+.badge-red{background:rgba(210,16,52,.15);color:var(--dz-red3);border:1px solid rgba(210,16,52,.3)}
+.badge-orange{background:rgba(249,115,22,.15);color:var(--orange);border:1px solid rgba(249,115,22,.3)}
+.badge-yellow{background:rgba(245,158,11,.15);color:var(--gold);border:1px solid rgba(245,158,11,.3)}
+.badge-purple{background:rgba(139,92,246,.15);color:var(--purple);border:1px solid rgba(139,92,246,.3)}
+.badge-gray{background:rgba(90,138,106,.15);color:var(--txt2);border:1px solid rgba(90,138,106,.3)}
+
+/* ── BTN ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-weight:700;transition:.15s;font-family:inherit;white-space:nowrap}
+.btn-primary{background:var(--grad);color:#fff;box-shadow:0 4px 14px rgba(0,100,50,.4)}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-accent{background:linear-gradient(135deg,var(--dz-red),var(--dz-red2));color:#fff;box-shadow:0 4px 14px rgba(210,16,52,.35)}
+.btn-accent:hover{opacity:.9;transform:translateY(-1px)}
+.btn-secondary{background:var(--card2);color:var(--txt);border:1px solid var(--border2)}
+.btn-secondary:hover{background:var(--border);border-color:var(--border2)}
+.btn-danger{background:rgba(210,16,52,.15);color:var(--dz-red3);border:1px solid rgba(210,16,52,.3)}
+.btn-danger:hover{background:rgba(210,16,52,.25)}
+.btn-success{background:rgba(0,122,61,.15);color:var(--dz-green3);border:1px solid rgba(0,122,61,.3)}
+.btn-sm{padding:5px 10px;font-size:11px;border-radius:7px}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
+
+/* ── FORM ── */
+.fg{margin-bottom:12px}
+.fl{display:block;font-size:10px;font-weight:700;color:var(--txt3);margin-bottom:5px;letter-spacing:.5px}
+.fi{width:100%;padding:9px 12px;border:1px solid var(--border2);border-radius:9px;background:var(--bg3);color:var(--txt);font-size:12px;font-family:inherit;outline:none;transition:.15s}
+.fi:focus{border-color:var(--dz-green3);box-shadow:0 0 0 3px rgba(0,166,81,.15)}
+.fi::placeholder{color:var(--txt3)}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* ── MODAL ── */
+.mol{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.8);backdrop-filter:blur(4px)}
+.mod{background:var(--card2);border:1px solid var(--border2);border-radius:18px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.mod-wide{max-width:780px}
+.moh{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--border);background:var(--grad);border-radius:18px 18px 0 0}
+.moT{font-size:15px;font-weight:800;color:#fff}
+.mob{padding:20px}
+.mof{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+
+/* ── ALERTS ── */
+.al{padding:10px 14px;border-radius:10px;font-size:12px;margin-bottom:10px;display:flex;align-items:flex-start;gap:8px}
+.al-w{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);color:#fcd34d}
+.al-e{background:rgba(210,16,52,.1);border:1px solid rgba(210,16,52,.3);color:#fca5a5}
+.al-g{background:rgba(0,122,61,.1);border:1px solid rgba(0,122,61,.3);color:#6ee7b7}
+.al-i{background:rgba(0,122,61,.08);border:1px solid rgba(0,122,61,.25);color:#86efac}
+
+/* ── PAGE HEADER ── */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
+.ph h2{font-size:19px;font-weight:900;color:#fff}
+.ph p{font-size:11px;color:var(--txt3);margin-top:3px}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:3px;background:rgba(0,0,0,.3);border:1px solid var(--border);padding:3px;border-radius:10px;margin-bottom:16px;overflow-x:auto}
+.tab{padding:7px 14px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;color:var(--txt3);transition:.15s;white-space:nowrap}
+.tab.on{background:var(--primary2);color:#fff;box-shadow:0 2px 8px rgba(0,100,50,.4)}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:13px}
+
+/* ── LOGIN ── */
+#login{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 50%,#0a2214 0%,#060f09 100%);display:flex;align-items:center;justify-content:center;z-index:1000;flex-direction:column;gap:0}
+.login-flag-top{height:6px;width:100%;background:var(--grad-flag);position:fixed;top:0;left:0}
+.lc{background:var(--card);border:1px solid var(--border2);border-radius:22px;width:100%;max-width:460px;box-shadow:0 40px 100px rgba(0,0,0,.8);overflow:hidden}
+.lc-header{background:linear-gradient(135deg,var(--dz-green) 0%,#004020 60%,var(--dz-green2) 100%);padding:28px 30px 24px;text-align:center;position:relative}
+.lc-header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:var(--dz-red)}
+.login-emblem{width:68px;height:68px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.lc-body{padding:24px 28px}
+.rc{padding:12px 14px;border-radius:11px;border:1px solid var(--border2);cursor:pointer;transition:.15s;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.rc:hover,.rc.sel{border-color:var(--dz-green3);background:rgba(0,122,61,.12)}
+.rc.sel{box-shadow:0 0 0 2px rgba(0,122,61,.3)}
+
+/* ── PROGRESS ── */
+.prbar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.prbr{height:100%;border-radius:3px;transition:width .5s}
+
+/* ── PRINT ── */
+@media print{
+  body{background:#fff!important;color:#000!important}
+  .no-print{display:none!important}
+  #receipt-print{display:block!important}
+  *{color:#000!important;background:#fff!important;border-color:#ccc!important}
+}
+#receipt-print{display:none}
+
+/* ── MINI CHART ── */
+.minichart{display:flex;align-items:flex-end;gap:4px;height:60px}
+.mbar{border-radius:3px 3px 0 0;transition:.3s;min-width:14px;flex:1}
+
+/* ── DETAIL PANEL ── */
+.detail-panel{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:13px;margin-top:12px}
+.kv{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.kv:last-child{border-bottom:none}
+.kk{color:var(--txt3)}
+.kv-val{font-weight:600;color:var(--txt)}
+
+/* ── IB ── */
+.ib{width:34px;height:34px;border-radius:9px;border:1px solid var(--border2);background:var(--card2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--txt2);transition:.15s}
+.ib:hover{background:var(--border2);color:var(--txt)}
+.badge-notif{background:rgba(0,122,61,.15);border:1px solid rgba(0,122,61,.35);color:var(--dz-green3);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+.notif-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:var(--dz-red);border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff;border:2px solid var(--bg2)}
+.rel{position:relative}
+
+/* ── ITEMS LIST in OP form ── */
+.items-list{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:8px}
+.item-row{display:grid;grid-template-columns:1fr 90px 110px 34px;gap:8px;padding:8px 10px;border-bottom:1px solid var(--border);align-items:center}
+.item-row:last-child{border-bottom:none}
+.item-row-header{background:rgba(0,0,0,.25);font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:.5px}
+.item-total-row{padding:8px 12px;background:rgba(0,122,61,.08);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:13px 0}
+.scroll-x{overflow-x:auto}
+.av{display:flex;align-items:center;justify-content:center;border-radius:50%;font-weight:700;color:#fff;flex-shrink:0;font-size:11px}
+.gradient-text{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+@media(max-width:900px){
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .fr,.fr3{grid-template-columns:1fr}
+  .summary-banner{grid-template-columns:1fr 1fr}
+  .hn-t2{font-size:13px}
+}
+</style>
+</head>
+<body>
+
+<!-- ██ LOGIN ██ -->
+<div id="login">
+  <div class="login-flag-top"></div>
+  <div class="lc">
+    <div class="lc-header">
+      <div class="login-emblem">🏛️</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.7);letter-spacing:1.5px;margin-bottom:6px">الجمهورية الجزائرية الديمقراطية الشعبية</div>
+      <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:2px">ولاية جيجل — دائرة الطاهير</div>
+      <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:4px">بلدية وجانة</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.55)">SIGMAC Pro v4.0 — نظام تسيير المخزونات</div>
+    </div>
+    <div class="lc-body">
+      <div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:10px;letter-spacing:1px">اختر صفتك للدخول</div>
+      <div id="role-list"></div>
+      <button class="btn btn-primary" id="login-btn" disabled style="width:100%;padding:12px;font-size:14px;border-radius:12px;margin-top:14px">🔐 دخول إلى النظام</button>
+      <div style="text-align:center;font-size:10px;color:var(--txt3);margin-top:12px">© 2026 بلدية وجانة — ولاية جيجل — جميع الحقوق محفوظة</div>
+    </div>
+  </div>
+</div>
+
+<!-- ██ APP ██ -->
+<div id="app" style="display:none">
+
+  <!-- NATIONAL HEADER -->
+  <div id="header-national">
+    <div class="hn-inner">
+      <div class="hn-right">
+        <div class="hn-emblem">🏛️</div>
+        <div class="hn-titles">
+          <div class="hn-t1">الجمهورية الجزائرية الديمقراطية الشعبية — ولاية جيجل — دائرة الطاهير</div>
+          <div class="hn-t2">بلدية وجانة</div>
+          <div class="hn-t3">SIGMAC Pro v4.0 — نظام تسيير المخزونات البلدية</div>
+        </div>
+      </div>
+      <div class="hn-left">
+        <div class="hn-crescent">☪️</div>
+        <div style="text-align:center">
+          <div class="hn-badge" id="hn-role-badge">—</div>
+          <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:3px" id="hn-date-top"></div>
+        </div>
+        <div class="rel">
+          <button class="ib" onclick="go('alerts')" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:white">🔔</button>
+          <div class="notif-badge" id="notif-count" style="display:none">0</div>
+        </div>
+        <button class="ib" onclick="logout()" style="background:rgba(210,16,52,.15);border-color:rgba(210,16,52,.3);color:var(--dz-red3)" title="خروج">🚪</button>
+      </div>
+    </div>
+    <div class="flag-stripe"></div>
+  </div>
+
+  <!-- TOP NAV TABS -->
+  <div id="topnav">
+    <div class="topnav-tabs" id="main-tabs">
+      <!-- populated by JS -->
+    </div>
+    <div class="topnav-right">
+      <span class="badge-notif" id="tb-role"></span>
+      <div class="av" id="tb-av" style="width:32px;height:32px"></div>
+    </div>
+  </div>
+
+  <!-- SECONDARY TOPBAR -->
+  <div id="subtopbar">
+    <div class="stb-title">
+      <span id="stb-icon">📊</span>
+      <span id="tb-title">لوحة التحكم</span>
+    </div>
+    <div class="stb-right">
+      <div style="font-size:11px;color:var(--txt3)" id="tb-date"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content"></div>
+</div>
+
+<!-- PRINT -->
+<div id="receipt-print"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  ROLES & DATA
+// ═══════════════════════════════════════════════════════════
+const ROLES={
+  PAPC:{label:'رئيس البلدية',ic:'👔',color:'#006233',pages:['dashboard','products','in','out','ops','reports','alerts','users','logs','suppliers','receivers']},
+  SG:  {label:'الأمين العام',ic:'📋',color:'#004d26',pages:['dashboard','products','ops','reports','alerts','users','logs','suppliers','receivers']},
+  MAG: {label:'المخزني'     ,ic:'🏪',color:'#007a3d',pages:['dashboard','products','out','ops','alerts','receivers']},
+  ACH: {label:'المكلف بالشراء',ic:'🛒',color:'#d21034',pages:['dashboard','products','in','ops','alerts','suppliers']},
+};
+
+function dateAgo(d){const dt=new Date();dt.setDate(dt.getDate()-d);return dt.toISOString().slice(0,10)}
+function today(){return new Date().toISOString().slice(0,10)}
+function nowStr(){return new Date().toLocaleString('ar-DZ')}
+function fmt(n){return new Intl.NumberFormat('ar-DZ').format(n??0)}
+function fmtDate(d){if(!d)return'—';const dt=new Date(d);return dt.toLocaleDateString('ar-DZ',{year:'numeric',month:'short',day:'numeric'})}
+function diffDays(d){const t=new Date(),dt=new Date(d);return Math.ceil((dt-t)/(1000*60*60*24))}
+
+let CATS=['أدوات مكتبية','معدات إعلام آلي','أثاث مكتبي','مستلزمات نظافة','مواد كهربائية','وقود ومحروقات','مواد البناء','قطع غيار','مواد غذائية'];
+
+let PRODS=[
+  {id:1,name:'ورق A4',cat:'أدوات مكتبية',qty:450,min:50,unit:'رزمة',price:350,expiry:'',sup:'مكتبة النور',lastMove:dateAgo(5)},
+  {id:2,name:'حبر طابعة',cat:'معدات إعلام آلي',qty:12,min:5,unit:'خرطوشة',price:2500,expiry:'',sup:'تقنيات الجزائر',lastMove:dateAgo(3)},
+  {id:3,name:'كراسي مكتبية',cat:'أثاث مكتبي',qty:8,min:10,unit:'قطعة',price:8500,expiry:'',sup:'الأثاث الحديث',lastMove:dateAgo(45)},
+  {id:4,name:'مواد تنظيف',cat:'مستلزمات نظافة',qty:85,min:20,unit:'لتر',price:450,expiry:'2026-09-01',sup:'شركة النظافة',lastMove:dateAgo(2)},
+  {id:5,name:'كابلات كهربائية',cat:'مواد كهربائية',qty:3,min:15,unit:'متر',price:120,expiry:'',sup:'الكهرباء الجزائر',lastMove:dateAgo(60)},
+  {id:6,name:'وقود ديزل',cat:'وقود ومحروقات',qty:500,min:100,unit:'لتر',price:68,expiry:'',sup:'سوناطراك',lastMove:dateAgo(1)},
+  {id:7,name:'أسمنت',cat:'مواد البناء',qty:200,min:50,unit:'كيس',price:650,expiry:'2026-07-15',sup:'مؤسسة البناء',lastMove:dateAgo(20)},
+  {id:8,name:'مصابيح LED',cat:'مواد كهربائية',qty:60,min:20,unit:'قطعة',price:850,expiry:'',sup:'الكهرباء الجزائر',lastMove:dateAgo(8)},
+  {id:9,name:'محارم ورقية',cat:'مستلزمات نظافة',qty:0,min:30,unit:'علبة',price:200,expiry:'2027-01-01',sup:'شركة النظافة',lastMove:dateAgo(90)},
+  {id:10,name:'حليب UHT',cat:'مواد غذائية',qty:120,min:50,unit:'لتر',price:180,expiry:'2026-06-15',sup:'مؤسسة حضنة',lastMove:dateAgo(1)},
+];
+
+let SUPPLIERS=[
+  {id:1,name:'مكتبة النور',phone:'0551234567',address:'شارع الاستقلال، جيجل',ice:'123456789',rc:'JIJ-001',bank:'BNA'},
+  {id:2,name:'تقنيات الجزائر',phone:'0661234567',address:'حسين داي، الجزائر',ice:'987654321',rc:'ALG-022',bank:'CPA'},
+  {id:3,name:'الأثاث الحديث',phone:'0771234567',address:'جيجل',ice:'456789123',rc:'JIJ-003',bank:'BDL'},
+  {id:4,name:'شركة النظافة',phone:'0541234567',address:'جيجل',ice:'321654987',rc:'JIJ-004',bank:'BADR'},
+  {id:5,name:'الكهرباء الجزائر',phone:'0210000000',address:'الجزائر',ice:'111222333',rc:'ALG-001',bank:'BEA'},
+  {id:6,name:'سوناطراك',phone:'0210001001',address:'الجزائر',ice:'000111222',rc:'NAT-001',bank:'BNA'},
+  {id:7,name:'مؤسسة البناء',phone:'0662233445',address:'جيجل',ice:'555666777',rc:'JIJ-007',bank:'CPA'},
+  {id:8,name:'مؤسسة حضنة',phone:'0553344556',address:'المسيلة',ice:'888999000',rc:'MSL-001',bank:'BADR'},
+];
+
+let RECEIVERS=[
+  {id:1,name:' المولود',dept:' مصلحة المالية والمستخدمين ',grade:'رئيس المصلحة ',phone:'0551111111'},
+  {id:2,name:' الزهرة',dept:'مصلحة الدراسات والمتابعة',grade:'رئيسة مكتب الصفقات العمومية',phone:'0662222222'},
+  {id:3,name:'ربيحة',dept:'أمانة الرئيس',grade:'سكرتيرة الرئيس',phone:'0773333333'},
+  {id:4,name:'روفية',dept:'مصلحة البناء والتعمير',grade:'رئيسة مكتب النظافة والتطهير',phone:'0554444444'},
+  {id:5,name:'ياسين',dept:'مكتب البطاقة الرمادية',grade:'متصرف إداري',phone:'0665555555'},
+  {id:6,name:'صالح',dept:'البناء والتعمير',grade:'نائب رئيس المجلس الشعبي البلدي',phone:'0776666666'},
+];	
+
+let OPS=[
+  {id:1,type:'in',items:[{pid:1,qty:100,unitCost:340}],supId:1,refBon:'BC-2026-001',note:'شراء دوري Q1',recvName:'المخزن الرئيسي',date:dateAgo(16),ref:'BN-001'},
+  {id:2,type:'out',items:[{pid:1,qty:50}],recvId:2,note:'توزيع على المصالح',date:dateAgo(6),ref:'BS-001'},
+  {id:3,type:'in',items:[{pid:6,qty:300,unitCost:66}],supId:6,refBon:'BC-2026-002',note:'تزويد أسطول',recvName:'المخزن الوقود',date:dateAgo(8),ref:'BN-002'},
+  {id:4,type:'out',items:[{pid:3,qty:2},{pid:8,qty:5}],recvId:1,note:'مكتب رئيس البلدية',date:dateAgo(25),ref:'BS-002'},
+  {id:5,type:'in',items:[{pid:7,qty:200,unitCost:630},{pid:4,qty:50,unitCost:440}],supId:7,refBon:'BC-2026-003',note:'مشروع ترميم',recvName:'مخزن البناء',date:dateAgo(21),ref:'BN-003'},
+  {id:6,type:'out',items:[{pid:5,qty:50}],recvId:5,note:'إصلاح إنارة عامة',date:dateAgo(21),ref:'BS-003'},
+  {id:7,type:'out',items:[{pid:6,qty:80},{pid:4,qty:10}],recvId:5,note:'سيارات البلدية',date:dateAgo(3),ref:'BS-004'},
+  {id:8,type:'out',items:[{pid:1,qty:30},{pid:2,qty:3}],recvId:4,note:'طباعة وثائق',date:dateAgo(1),ref:'BS-005'},
+  {id:9,type:'in',items:[{pid:10,qty:120,unitCost:175}],supId:8,refBon:'BC-2026-004',note:'مخزون شهري',recvName:'المخزن الغذائي',date:dateAgo(1),ref:'BN-004'},
+  {id:10,type:'out',items:[{pid:10,qty:40},{pid:9,qty:0}],recvId:6,note:'توزيع اجتماعي',date:dateAgo(1),ref:'BS-006'},
+];
+
+let LOGS=[];
+let currentUser=null;
+let currentPage='dashboard';
+let nextId=1000;
+
+// ═══════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════
+function statusOf(q,m){if(q===0)return'نفاد';if(q<m)return'منخفض';if(q<m*1.5)return'تحذير';return'جيد'}
+function statusClr(s){return{نفاد:'var(--dz-red3)',منخفض:'var(--orange)',تحذير:'var(--gold)',جيد:'var(--dz-green3)'}[s]}
+function statusBadge(q,m){const s=statusOf(q,m),c={نفاد:'red',منخفض:'orange',تحذير:'yellow',جيد:'green'}[s];return`<span class="badge badge-${c}">${s==='نفاد'?'🔴':s==='منخفض'?'🟠':s==='تحذير'?'🟡':'🟢'} ${s}</span>`}
+function roleBadge(r){if(!ROLES[r])return'';const c={PAPC:'primary',SG:'green',MAG:'green',ACH:'yellow'}[r];return`<span class="badge badge-${c}">${ROLES[r].label}</span>`}
+function supName(id){const s=SUPPLIERS.find(x=>x.id===id);return s?s.name:'—'}
+function recvName(id){const r=RECEIVERS.find(x=>x.id===id);return r?`${r.name} (${r.dept})`:'—'}
+function prodName(id){const p=PRODS.find(x=>x.id===id);return p?p.name:'—'}
+function prodUnit(id){const p=PRODS.find(x=>x.id===id);return p?p.unit:''}
+function addLog(action){LOGS.unshift({id:++nextId,uid:currentUser.role,action,time:nowStr()})}
+function calcAlerts(){
+  let a=[];
+  PRODS.forEach(p=>{
+    if(p.qty===0)a.push({type:'e',msg:`نفاد تام: <strong>${p.name}</strong> — يجب التزويد فوراً`});
+    else if(p.qty<p.min)a.push({type:'e',msg:`مخزون حرج: <strong>${p.name}</strong> (${p.qty} ${p.unit} / حد أدنى: ${p.min})`});
+    else if(p.qty<p.min*1.5)a.push({type:'w',msg:`تحذير مخزون: <strong>${p.name}</strong> قريب من الحد الأدنى`});
+    if(p.expiry){const d=diffDays(p.expiry);if(d<=0)a.push({type:'e',msg:`انتهت صلاحية: <strong>${p.name}</strong>`});else if(d<=30)a.push({type:'w',msg:`صلاحية قريبة: <strong>${p.name}</strong> تنتهي خلال ${d} يوم`});}
+    const days=p.lastMove?Math.ceil((new Date()-new Date(p.lastMove))/(86400000)):999;
+    if(days>60)a.push({type:'w',msg:`حركة منعدمة: <strong>${p.name}</strong> منذ ${days} يوم`});
+  });
+  return a;
+}
+// flat ops for backward compat
+function flatOps(){
+  return OPS.flatMap(o=>o.items.map(it=>({...o,...it,_opId:o.id})));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════════════════════
+const NAV_GROUPS=[
+  {sec:'الرئيسية',items:[
+    {id:'dashboard',ic:'📊',lb:'لوحة التحكم',r:['PAPC','SG','MAG','ACH']},
+  ]},
+  {sec:'المخزون',items:[
+    {id:'products',ic:'📦',lb:'المنتجات',r:['PAPC','SG','MAG','ACH']},
+    {id:'in',ic:'📥',lb:'دخول البضاعة',r:['PAPC','ACH']},
+    {id:'out',ic:'📤',lb:'خروج البضاعة',r:['PAPC','MAG']},
+    {id:'ops',ic:'🔄',lb:'سجل العمليات',r:['PAPC','SG','MAG','ACH']},
+  ]},
+  {sec:'الأطراف',items:[
+    {id:'suppliers',ic:'🏢',lb:'الموردون',r:['PAPC','SG','ACH']},
+    {id:'receivers',ic:'👤',lb:'المستلمون',r:['PAPC','SG','MAG']},
+  ]},
+  {sec:'التقارير',items:[
+    {id:'reports',ic:'📈',lb:'الإحصائيات',r:['PAPC','SG']},
+    {id:'alerts',ic:'🔔',lb:'التنبيهات',r:['PAPC','SG','MAG','ACH']},
+  ]},
+  {sec:'الإدارة',items:[
+    {id:'users',ic:'👥',lb:'المستخدمون',r:['PAPC','SG']},
+    {id:'logs',ic:'📋',lb:'سجل النشاط',r:['PAPC','SG']},
+  ]},
+];
+
+const PAGE_ICONS={dashboard:'📊',products:'📦',in:'📥',out:'📤',ops:'🔄',reports:'📈',alerts:'🔔',users:'👥',logs:'📋',suppliers:'🏢',receivers:'👤'};
+const PAGE_TITLES={dashboard:'لوحة التحكم',products:'إدارة المنتجات',in:'دخول البضاعة',out:'خروج البضاعة',ops:'سجل العمليات',reports:'الإحصائيات والتقارير',alerts:'التنبيهات',users:'المستخدمون',logs:'سجل النشاطات',suppliers:'الموردون',receivers:'المستلمون'};
+
+function buildTabs(){
+  const tabs=document.getElementById('main-tabs');
+  const ac=calcAlerts().length;
+  const allItems=NAV_GROUPS.flatMap(g=>g.items.filter(n=>n.r.includes(currentUser.role)));
+  tabs.innerHTML=allItems.map(n=>`
+    <div class="tnav ${currentPage===n.id?'on':''}" onclick="go('${n.id}')">
+      <span class="tnav-ic">${n.ic}</span>${n.lb}
+      ${n.id==='alerts'&&ac>0?`<span class="tnav-badge">${ac}</span>`:''}
+    </div>`).join('');
+  const nb=document.getElementById('notif-count');
+  if(ac>0){nb.style.display='flex';nb.textContent=ac;}else nb.style.display='none';
+}
+
+function go(page){
+  currentPage=page;
+  document.getElementById('tb-title').textContent=PAGE_TITLES[page]||'—';
+  document.getElementById('stb-icon').textContent=PAGE_ICONS[page]||'📋';
+  buildTabs();
+  const c=document.getElementById('content');
+  const pages={dashboard:pageDashboard,products:pageProducts,in:()=>pageStockOp('in'),out:()=>pageStockOp('out'),ops:pageOps,reports:pageReports,alerts:pageAlerts,users:pageUsers,logs:pageLogs,suppliers:pageSuppliers,receivers:pageReceivers};
+  c.innerHTML='';
+  if(pages[page])c.innerHTML=pages[page]();
+  bindPageEvents(page);
+}
+
+function bindPageEvents(p){
+  if(p==='products')bindProducts();
+  if(p==='in'||p==='out')bindStockOp(p);
+  if(p==='suppliers')bindSuppliers();
+  if(p==='receivers')bindReceivers();
+  if(p==='reports')bindReports();
+  if(p==='ops')bindOps();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LOGIN
+// ═══════════════════════════════════════════════════════════
+let selRole=null;
+function initLogin(){
+  document.getElementById('role-list').innerHTML=Object.entries(ROLES).map(([k,v])=>`
+    <div class="rc" onclick="selR('${k}',this)">
+      <span style="font-size:28px">${v.ic}</span>
+      <div>
+        <div style="font-weight:700;font-size:14px;color:#fff">${v.label}</div>
+        <div style="font-size:10px;color:var(--txt3)">${k}</div>
+      </div>
+    </div>`).join('');
+}
+function selR(r,el){
+  selRole=r;
+  document.querySelectorAll('.rc').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('login-btn').disabled=false;
+}
+document.getElementById('login-btn').onclick=()=>{
+  if(!selRole)return;
+  currentUser={role:selRole,av:ROLES[selRole].label.slice(0,2)};
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('tb-role').textContent=ROLES[selRole].label;
+  document.getElementById('hn-role-badge').textContent=ROLES[selRole].label;
+  document.getElementById('tb-av').style.background=ROLES[selRole].color;
+  document.getElementById('tb-av').textContent=currentUser.av;
+  document.getElementById('tb-av').style.borderRadius='50%';
+  const dateStr=new Date().toLocaleDateString('ar-DZ',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('tb-date').textContent=dateStr;
+  document.getElementById('hn-date-top').textContent=dateStr;
+  addLog(`تسجيل دخول: ${ROLES[selRole].label}`);
+  go('dashboard');
+};
+function logout(){
+  currentUser=null;selRole=null;
+  document.getElementById('login').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-btn').disabled=true;
+  document.querySelectorAll('.rc').forEach(x=>x.classList.remove('sel'));
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════════
+function pageDashboard(){
+  const tv=PRODS.reduce((x,p)=>x+p.qty*p.price,0);
+  const low=PRODS.filter(p=>p.qty<p.min).length;
+  const zero=PRODS.filter(p=>p.qty===0).length;
+  const alerts=calcAlerts();
+  const fo=flatOps();
+  const inOps=fo.filter(o=>o.type==='in');
+  const outOps=fo.filter(o=>o.type==='out');
+  const consumed={};
+  outOps.forEach(o=>{consumed[o.pid]=(consumed[o.pid]||0)+o.qty});
+  const topC=Object.entries(consumed).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const rxStat={};
+  OPS.filter(o=>o.type==='out').forEach(o=>{o.items.forEach(it=>{if(o.recvId)rxStat[o.recvId]=(rxStat[o.recvId]||0)+it.qty})});
+  const topR=Object.entries(rxStat).sort((a,b)=>b[1]-a[1]).slice(0,3);
+  return`
+  <div class="ph">
+    <div>
+      <h2 class="gradient-text">مرحباً 👋 ${ROLES[currentUser.role].label}</h2>
+      <p>${new Date().toLocaleDateString('ar-DZ',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary btn-sm" onclick="go('in')">📥 دخول سريع</button>
+      <button class="btn btn-accent btn-sm" onclick="go('out')">📤 خروج سريع</button>
+    </div>
+  </div>
+  ${alerts.length>0?`<div class="al al-e">🚨 يوجد <strong>${alerts.length} تنبيه</strong> تستوجب المتابعة الفورية — <span style="cursor:pointer;text-decoration:underline" onclick="go('alerts')">عرض التنبيهات</span></div>`:'<div class="al al-g">✅ لا توجد تنبيهات حرجة — المخزون في وضع جيد</div>'}
+  <div class="summary-banner">
+    <div class="sb-item" style="--sc:var(--dz-green3)">
+      <div class="sb-ic">📦</div>
+      <div class="sb-val" style="color:var(--dz-green3)">${PRODS.length}</div>
+      <div class="sb-lbl">إجمالي الأصناف</div>
+    </div>
+    <div class="sb-item" style="--sc:var(--dz-red3)">
+      <div class="sb-ic">🚫</div>
+      <div class="sb-val" style="color:var(--dz-red3)">${zero}</div>
+      <div class="sb-lbl">أصناف نفدت</div>
+    </div>
+    <div class="sb-item" style="--sc:var(--orange)">
+      <div class="sb-ic">⚠️</div>
+      <div class="sb-val" style="color:var(--orange)">${low}</div>
+      <div class="sb-lbl">مخزون منخفض</div>
+    </div>
+    <div class="sb-item" style="--sc:var(--gold)">
+      <div class="sb-ic">💰</div>
+      <div class="sb-val" style="color:var(--gold);font-size:15px">${fmt(tv)}</div>
+      <div class="sb-lbl">القيمة الإجمالية (دج)</div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="ch"><span class="ct">🔥 أكثر السلع استهلاكاً</span></div>
+      <div class="cb" style="padding:0">
+        ${topC.map(([pid,qty],i)=>{const p=PRODS.find(x=>x.id==pid);if(!p)return'';return`
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border)">
+            <span style="font-size:15px;font-weight:900;color:var(--dz-green3);width:20px">#${i+1}</span>
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:12px">${p.name}</div>
+              <div class="prbar" style="margin-top:4px"><div class="prbr" style="width:${(qty/topC[0][1])*100}%;background:var(--dz-green2)"></div></div>
+            </div>
+            <span style="font-weight:700;color:var(--dz-green3);font-size:12px">${fmt(qty)} ${p.unit}</span>
+          </div>`;}).join('')||'<div style="padding:20px;text-align:center;color:var(--txt3)">لا توجد بيانات</div>'}
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">🔄 آخر العمليات</span></div>
+      <div class="cb" style="padding:0">
+        ${OPS.slice(0,6).map(o=>`
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 16px;border-bottom:1px solid var(--border)">
+            <span style="font-size:16px">${o.type==='in'?'📥':'📤'}</span>
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:12px">${o.items.length>1?`${o.items.length} أصناف`:(prodName(o.items[0]?.pid)||'—')}</div>
+              <div style="font-size:10px;color:var(--txt3)">${o.ref} • ${o.date}</div>
+            </div>
+            <span class="badge ${o.type==='in'?'badge-green':'badge-red'}">${o.type==='in'?'دخول':'خروج'}</span>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="g2" style="margin-bottom:16px">
+    <div class="card">
+      <div class="ch"><span class="ct">⚠️ سلع تحتاج تزويداً</span></div>
+      <div class="cb" style="padding:0">
+        ${PRODS.filter(p=>p.qty<p.min).length===0?'<div style="padding:20px;text-align:center;color:var(--txt3)">✅ جميع الأصناف بمستوى جيد</div>':
+          PRODS.filter(p=>p.qty<p.min).map(p=>`
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border)">
+            <div><div style="font-weight:600;font-size:12px">${p.name}</div><div style="font-size:10px;color:var(--txt3)">${p.cat}</div></div>
+            <div style="text-align:left">${statusBadge(p.qty,p.min)}<div style="font-size:10px;color:var(--txt3);margin-top:2px">${p.qty}/${p.min} ${p.unit}</div></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">👤 أكثر المستلمين استهلاكاً</span></div>
+      <div class="cb" style="padding:0">
+        ${topR.map(([rid,qty])=>{const r=RECEIVERS.find(x=>x.id==rid);if(!r)return'';return`
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer" onclick="go('receivers');setTimeout(()=>showReceiverDetail(${r.id}),100)">
+            <div class="av" style="background:var(--dz-green2);width:36px;height:36px;font-size:12px">${r.name.slice(0,2)}</div>
+            <div style="flex:1"><div style="font-weight:600;font-size:12px">${r.name}</div><div style="font-size:10px;color:var(--txt3)">${r.dept}</div></div>
+            <span style="font-size:15px;font-weight:900;color:var(--gold)">${fmt(qty)}</span>
+          </div>`;}).join('')||'<div style="padding:20px;text-align:center;color:var(--txt3)">لا توجد بيانات</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PRODUCTS
+// ═══════════════════════════════════════════════════════════
+function pageProducts(){
+  return`
+  <div class="ph">
+    <div><h2>📦 قائمة المنتجات</h2><p>${PRODS.length} صنف مسجّل</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="openProdModal()">＋ صنف جديد</button>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="cb" style="display:flex;gap:10px;flex-wrap:wrap">
+      <input class="fi" placeholder="🔍 بحث..." id="prod-q" oninput="filterProds()" style="flex:1;min-width:150px"/>
+      <select class="fi" id="prod-cat" onchange="filterProds()" style="width:auto">
+        <option value="">كل الفئات</option>
+        ${CATS.map(c=>`<option>${c}</option>`).join('')}
+      </select>
+      <select class="fi" id="prod-status" onchange="filterProds()" style="width:auto">
+        <option value="">كل الحالات</option>
+        <option value="نفاد">🔴 نفاد</option>
+        <option value="منخفض">🟠 منخفض</option>
+        <option value="تحذير">🟡 تحذير</option>
+        <option value="جيد">🟢 جيد</option>
+      </select>
+    </div>
+  </div>
+  <div class="card"><div class="tw" id="prod-table">${renderProdTable(PRODS)}</div></div>
+  <div id="prod-modal"></div>`;
+}
+function renderProdTable(list){
+  return`<table>
+    <thead><tr><th>#</th><th>الصنف</th><th>الفئة</th><th>الكمية</th><th>الحد الأدنى</th><th>الحالة</th><th>القيمة</th><th>الصلاحية</th><th></th></tr></thead>
+    <tbody>${list.map((p,i)=>`<tr class="clickable-row" onclick="showProdDetail(${p.id})">
+      <td style="color:var(--txt3);font-size:11px">${i+1}</td>
+      <td><strong>${p.name}</strong><div style="font-size:10px;color:var(--txt3)">${p.unit}</div></td>
+      <td><span class="badge badge-primary">${p.cat}</span></td>
+      <td style="font-weight:700;color:${statusClr(statusOf(p.qty,p.min))}">${fmt(p.qty)} <span style="font-size:10px;color:var(--txt3)">${p.unit}</span></td>
+      <td style="font-size:11px;color:var(--txt3)">${p.min} ${p.unit}</td>
+      <td>${statusBadge(p.qty,p.min)}</td>
+      <td style="color:var(--gold);font-weight:700">${fmt(p.qty*p.price)} <span style="font-size:10px;color:var(--txt3)">دج</span></td>
+      <td style="font-size:11px">${p.expiry?`<span style="color:${diffDays(p.expiry)<30?'var(--dz-red3)':'var(--txt2)'}">${p.expiry}</span>`:'—'}</td>
+      <td onclick="event.stopPropagation()">
+        <div style="display:flex;gap:4px">
+          <button class="btn btn-secondary btn-sm" onclick="openProdModal(${p.id})">✏️</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProd(${p.id})">🗑️</button>
+        </div>
+      </td>
+    </tr>`).join('')||'<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--txt3)">لا توجد منتجات</td></tr>'}
+    </tbody></table>`;
+}
+function filterProds(){
+  const q=(document.getElementById('prod-q').value||'').toLowerCase();
+  const cat=document.getElementById('prod-cat').value;
+  const st=document.getElementById('prod-status').value;
+  const list=PRODS.filter(p=>{
+    return(!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q))
+      &&(!cat||p.cat===cat)&&(!st||statusOf(p.qty,p.min)===st);
+  });
+  document.getElementById('prod-table').innerHTML=renderProdTable(list);
+}
+function bindProducts(){
+  document.getElementById('prod-q')?.addEventListener('input',filterProds);
+}
+function showProdDetail(pid){
+  const p=PRODS.find(x=>x.id===pid);if(!p)return;
+  const ops=OPS.filter(o=>o.items.some(it=>it.pid===pid));
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod">
+      <div class="moh"><span class="moT">📦 ${p.name}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+      <div class="mob">
+        <div class="g2" style="margin-bottom:16px">
+          <div>
+            ${[['الفئة',p.cat],['وحدة القياس',p.unit],['الكمية الحالية',`<strong style="color:${statusClr(statusOf(p.qty,p.min))}">${fmt(p.qty)} ${p.unit}</strong>`],['الحد الأدنى',`${p.min} ${p.unit}`],['الحالة',statusBadge(p.qty,p.min)],['سعر الوحدة',fmt(p.price)+' دج'],['القيمة الكلية',fmt(p.qty*p.price)+' دج'],['الصلاحية',p.expiry||'—'],['المورد الافتراضي',p.sup||'—']].map(([k,v])=>`<div class="kv"><span class="kk">${k}</span><span class="kv-val">${v}</span></div>`).join('')}
+          </div>
+          <div>
+            <div style="background:var(--grad);border-radius:12px;padding:16px;text-align:center;margin-bottom:12px">
+              <div style="font-size:30px;font-weight:900;color:#fff">${fmt(p.qty)}</div>
+              <div style="color:rgba(255,255,255,.8);font-size:11px">${p.unit} متوفرة</div>
+            </div>
+            <div style="margin-bottom:8px"><div class="fl">نسبة المخزون</div>
+            <div class="prbar" style="margin-top:5px;height:10px"><div class="prbr" style="width:${Math.min(100,(p.qty/(p.min*2||1))*100)}%;background:${statusClr(statusOf(p.qty,p.min))}"></div></div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:8px">آخر الحركات</div>
+        <div style="max-height:200px;overflow-y:auto">
+          ${ops.slice(0,10).map(o=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+              <span>${o.type==='in'?'📥':'📤'}</span>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:600">${o.ref}</div>
+                <div style="font-size:10px;color:var(--txt3)">${o.type==='in'?supName(o.supId):recvName(o.recvId)}</div>
+              </div>
+              <div style="font-weight:700;font-size:12px;color:${o.type==='in'?'var(--dz-green3)':'var(--dz-red3)'}">${o.type==='in'?'+':'-'}${o.items.find(it=>it.pid===pid)?.qty||0} ${p.unit}</div>
+              <div style="font-size:10px;color:var(--txt3)">${o.date}</div>
+            </div>`).join('')||'<div style="color:var(--txt3);font-size:12px">لا توجد حركات</div>'}
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend',html);
+}
+function openProdModal(pid){
+  const p=pid?PRODS.find(x=>x.id===pid):{id:0,name:'',cat:CATS[0],qty:0,min:10,unit:'قطعة',price:0,sup:'',expiry:''};
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod">
+      <div class="moh"><span class="moT">${pid?'✏️ تعديل الصنف':'➕ إضافة صنف جديد'}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+      <div class="mob">
+        <div class="fr">
+          <div class="fg"><label class="fl">اسم الصنف *</label><input class="fi" id="pf-name" value="${p.name}" placeholder="اسم المنتج"/></div>
+          <div class="fg"><label class="fl">الفئة *</label>
+            <div style="display:flex;gap:6px">
+              <select class="fi" id="pf-cat" style="flex:1">${CATS.map(c=>`<option ${p.cat===c?'selected':''}>${c}</option>`).join('')}</select>
+              <button class="btn btn-secondary btn-sm" onclick="promptNewCat()">＋</button>
+            </div>
+          </div>
+        </div>
+        <div class="fr3">
+          <div class="fg"><label class="fl">الكمية *</label><input class="fi" id="pf-qty" type="number" value="${p.qty}"/></div>
+          <div class="fg"><label class="fl">الحد الأدنى</label><input class="fi" id="pf-min" type="number" value="${p.min}"/></div>
+          <div class="fg"><label class="fl">وحدة القياس</label><input class="fi" id="pf-unit" value="${p.unit}"/></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">سعر الوحدة (دج)</label><input class="fi" id="pf-price" type="number" value="${p.price}"/></div>
+          <div class="fg"><label class="fl">تاريخ الصلاحية</label><input class="fi" id="pf-expiry" type="date" value="${p.expiry}"/></div>
+        </div>
+        <div class="fg"><label class="fl">المورد الافتراضي</label><input class="fi" id="pf-sup" value="${p.sup||''}"/></div>
+      </div>
+      <div class="mof">
+        <button class="btn btn-secondary" onclick="this.closest('.mol').remove()">إلغاء</button>
+        <button class="btn btn-primary" onclick="saveProd(${pid||0})">💾 حفظ</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('prod-modal').innerHTML=html;
+}
+function promptNewCat(){
+  const c=prompt('أدخل اسم الفئة الجديدة:');
+  if(c&&!CATS.includes(c)){CATS.push(c);const s=document.getElementById('pf-cat');if(s){const o=document.createElement('option');o.textContent=c;s.appendChild(o);s.value=c;}}
+}
+function saveProd(pid){
+  const name=document.getElementById('pf-name').value.trim();
+  const cat=document.getElementById('pf-cat').value;
+  if(!name){alert('الرجاء إدخال اسم الصنف');return}
+  const d={name,cat,qty:+document.getElementById('pf-qty').value,min:+document.getElementById('pf-min').value,unit:document.getElementById('pf-unit').value,price:+document.getElementById('pf-price').value,sup:document.getElementById('pf-sup').value,expiry:document.getElementById('pf-expiry').value,lastMove:today()};
+  if(pid){Object.assign(PRODS.find(x=>x.id===pid),d);addLog(`تعديل صنف: ${name}`);}
+  else{PRODS.push({id:++nextId,...d});addLog(`إضافة صنف جديد: ${name}`);}
+  document.querySelector('.mol')?.remove();
+  go('products');
+}
+function deleteProd(id){
+  if(!confirm('هل تريد حذف هذا الصنف؟'))return;
+  const p=PRODS.find(x=>x.id===id);
+  PRODS.splice(PRODS.indexOf(p),1);
+  addLog(`حذف صنف: ${p.name}`);
+  go('products');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  STOCK IN / OUT — متعدد الأصناف
+// ═══════════════════════════════════════════════════════════
+let opItems=[]; // [{pid, qty, unitCost?}]
+
+function pageStockOp(type){
+  opItems=[{pid:'',qty:1,unitCost:0}];
+  return`
+  <div class="ph">
+    <div><h2>${type==='in'?'📥 تسجيل دخول البضاعة':'📤 تسجيل خروج البضاعة'}</h2>
+    <p>${type==='in'?'تسجيل وصول بضاعة — يمكن إضافة أصناف متعددة في وصل واحد':'تسجيل صرف بضاعة — يمكن إضافة أصناف متعددة في وصل واحد'}</p></div>
+  </div>
+  <div id="op-alert"></div>
+  <div class="g2">
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="ch"><span class="ct">${type==='in'?'📋 بيانات الاستلام':'📋 بيانات الصرف'}</span></div>
+        <div class="cb">
+          <!-- بيانات عامة -->
+          ${type==='in'?`
+          <div class="fr">
+            <div class="fg"><label class="fl">المورد *</label>
+              <select class="fi" id="op-supid">
+                <option value="">— اختر المورد —</option>
+                ${SUPPLIERS.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}
+              </select>
+            </div>
+            <div class="fg"><label class="fl">رقم وصل الشراء</label><input class="fi" id="op-refbon" placeholder="BC-2026-XXX"/></div>
+          </div>
+          <div class="fg"><label class="fl">مكان الاستلام</label><input class="fi" id="op-recv" value="المخزن الرئيسي"/></div>
+          `:`
+          <div class="fg"><label class="fl">المستلِم *</label>
+            <select class="fi" id="op-recvid">
+              <option value="">— اختر المستلِم —</option>
+              ${RECEIVERS.map(r=>`<option value="${r.id}">${r.name} — ${r.dept}</option>`).join('')}
+            </select>
+          </div>
+          <div class="fg"><label class="fl">الغرض من الصرف</label><input class="fi" id="op-purpose" placeholder="مثال: توزيع على المصالح..."/></div>
+          `}
+          <div class="fg"><label class="fl">ملاحظات</label><input class="fi" id="op-note" placeholder="ملاحظات إضافية..."/></div>
+          <div class="divider"></div>
+          <!-- قائمة الأصناف -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+            <div style="font-size:12px;font-weight:700;color:var(--txt)">📦 الأصناف</div>
+            <button class="btn btn-success btn-sm" onclick="addOpItem('${type}')">＋ إضافة صنف</button>
+          </div>
+          <div id="op-items-list">${renderOpItems(type)}</div>
+          <div id="op-total-display" style="margin-top:8px"></div>
+          <div id="op-err" style="margin-top:8px"></div>
+          <button class="btn btn-primary" style="width:100%;margin-top:12px;padding:11px" onclick="submitOp('${type}')">
+            ${type==='in'?'📥 تسجيل الدخول وطباعة الوصل':'📤 تسجيل الخروج وطباعة الوصل'}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="ch"><span class="ct">🔄 آخر العمليات من هذا النوع</span></div>
+        <div class="cb" style="padding:0">
+          ${OPS.filter(o=>o.type===type).slice(0,6).map(o=>`
+            <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--border)">
+              <div style="flex:1">
+                <div style="font-weight:600;font-size:12px">${o.items.length>1?`${o.items.length} أصناف (${o.items.map(it=>prodName(it.pid)).join('، ')})`:prodName(o.items[0]?.pid)}</div>
+                <div style="font-size:10px;color:var(--txt3)">${o.ref} • ${o.date} • ${type==='in'?supName(o.supId):recvName(o.recvId)}</div>
+              </div>
+              <span class="badge ${type==='in'?'badge-green':'badge-red'}">${o.items.reduce((x,it)=>x+it.qty,0)}</span>
+              <button class="btn btn-secondary btn-sm" onclick="printReceipt(${o.id})">🖨️</button>
+            </div>`).join('')||'<div style="padding:16px;text-align:center;color:var(--txt3)">لا توجد عمليات</div>'}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderOpItems(type){
+  return`
+  <div class="items-list">
+    <div class="item-row item-row-header">
+      <div>الصنف</div>
+      <div>الكمية</div>
+      ${type==='in'?'<div>سعر الوحدة</div>':'<div>المخزون</div>'}
+      <div></div>
+    </div>
+    ${opItems.map((it,i)=>{
+      const p=PRODS.find(x=>x.id==it.pid);
+      return`<div class="item-row">
+        <select class="fi" style="font-size:11px;padding:6px 8px" onchange="updateOpItem(${i},'pid',this.value,'${type}')">
+          <option value="">— الصنف —</option>
+          ${PRODS.map(p2=>`<option value="${p2.id}" ${it.pid==p2.id?'selected':''}>${p2.name} (${fmt(p2.qty)})</option>`).join('')}
+        </select>
+        <input class="fi" type="number" min="1" value="${it.qty}" style="padding:6px 8px;font-size:11px" onchange="updateOpItem(${i},'qty',this.value,'${type}')"/>
+        ${type==='in'?`<input class="fi" type="number" min="0" value="${it.unitCost||0}" style="padding:6px 8px;font-size:11px" placeholder="دج" onchange="updateOpItem(${i},'unitCost',this.value,'${type}')"/>`
+          :`<div style="font-size:11px;color:${p&&it.qty>p.qty?'var(--dz-red3)':'var(--txt3)'};padding:6px 4px">${p?fmt(p.qty)+' '+p.unit:'—'}</div>`}
+        <button class="btn btn-danger btn-sm" style="padding:6px 8px" onclick="removeOpItem(${i},'${type}')" ${opItems.length===1?'disabled':''}>✕</button>
+      </div>`;
+    }).join('')}
+  </div>
+  ${type==='in'?`<div class="item-total-row"><span style="color:var(--txt3)">المجموع الكلي</span><strong style="color:var(--gold)">${fmt(opItems.reduce((x,it)=>x+it.qty*(it.unitCost||0),0))} دج</strong></div>`:''}`;
+}
+
+function updateOpItem(i,field,val,type){
+  if(field==='qty'||field==='unitCost')opItems[i][field]=+val;
+  else opItems[i][field]=val;
+  document.getElementById('op-items-list').innerHTML=renderOpItems(type);
+}
+function addOpItem(type){
+  opItems.push({pid:'',qty:1,unitCost:0});
+  document.getElementById('op-items-list').innerHTML=renderOpItems(type);
+}
+function removeOpItem(i,type){
+  if(opItems.length===1)return;
+  opItems.splice(i,1);
+  document.getElementById('op-items-list').innerHTML=renderOpItems(type);
+}
+
+function bindStockOp(type){
+  // items already live-rendered
+}
+
+function submitOp(type){
+  // validate items
+  const validItems=opItems.filter(it=>it.pid&&it.qty>0);
+  if(validItems.length===0){document.getElementById('op-err').innerHTML='<div class="al al-e">⚠️ يرجى إضافة صنف واحد على الأقل</div>';return}
+  // check stock for out
+  if(type==='out'){
+    for(const it of validItems){
+      const p=PRODS.find(x=>x.id==it.pid);
+      if(p&&it.qty>p.qty){document.getElementById('op-err').innerHTML=`<div class="al al-e">⚠️ الكمية لـ "${p.name}" (${it.qty}) تتجاود المخزون (${p.qty})</div>`;return}
+    }
+  }
+  let supId=null,recvId=null,refBon='',recvName='',purpose='',note='';
+  if(type==='in'){
+    supId=+document.getElementById('op-supid').value||null;
+    refBon=document.getElementById('op-refbon').value;
+    recvName=document.getElementById('op-recv').value;
+  }else{
+    recvId=+document.getElementById('op-recvid').value||null;
+    purpose=document.getElementById('op-purpose').value;
+  }
+  note=document.getElementById('op-note').value||(type==='out'?purpose:'');
+  const ref=(type==='in'?'BN':'BS')+'-'+String(OPS.length+1).padStart(3,'0');
+  const op={id:++nextId,type,items:validItems.map(it=>({pid:+it.pid,qty:+it.qty,unitCost:+it.unitCost||0})),supId,recvId,refBon,recvName,note,date:today(),ref};
+  OPS.unshift(op);
+  // update stock
+  validItems.forEach(it=>{
+    const p=PRODS.find(x=>x.id==it.pid);
+    if(p){p.qty=type==='in'?p.qty+it.qty:p.qty-it.qty;p.lastMove=today();}
+  });
+  addLog(`${type==='in'?'دخول':'خروج'}: ${validItems.length} صنف — ${ref}`);
+  const a=document.getElementById('op-alert');
+  a.innerHTML=`<div class="al al-g">✅ تمت العملية بنجاح — ${ref} (${validItems.length} صنف)</div>`;
+  opItems=[{pid:'',qty:1,unitCost:0}];
+  setTimeout(()=>{printReceipt(op.id);},300);
+  setTimeout(()=>go(type),1400);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PRINT RECEIPT — محسّن متعدد الأصناف
+// ═══════════════════════════════════════════════════════════
+function printReceipt(opId){
+  const o=OPS.find(x=>x.id===opId);if(!o)return;
+  const sup=o.supId?SUPPLIERS.find(x=>x.id===o.supId):null;
+  const recv=o.recvId?RECEIVERS.find(x=>x.id===o.recvId):null;
+  const grandTotal=o.items.reduce((x,it)=>x+it.qty*(it.unitCost||0),0);
+  const html=`
+  <html dir="rtl"><head><meta charset="UTF-8"><title>${o.ref}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+    body{background:#fff;color:#000;padding:24px;font-size:12px;max-width:750px;margin:0 auto}
+    .header{text-align:center;margin-bottom:18px}
+    .flag-bar{height:6px;background:linear-gradient(90deg,#006233 48%,#fff 48%,#fff 52%,#d21034 52%);margin-bottom:14px;border-radius:2px}
+    .header-top{font-size:10px;color:#64748b;margin-bottom:3px}
+    .header-org{font-size:20px;font-weight:900;color:#006233;margin-bottom:2px}
+    .header-sub{font-size:12px;color:#475569;margin-bottom:8px}
+    .type-badge{display:inline-block;padding:5px 20px;border-radius:20px;font-weight:700;font-size:13px;background:${o.type==='in'?'#d1fae5':'#fee2e2'};color:${o.type==='in'?'#065f46':'#991b1b'};border:2px solid ${o.type==='in'?'#059669':'#dc2626'}}
+    .title{font-size:17px;font-weight:900;margin-bottom:8px;color:#1e293b}
+    .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;background:#f8fafc;padding:10px 14px;border-radius:8px;border:1px solid #e2e8f0}
+    .meta-item{font-size:11px}<.meta-item strong{color:#1e293b}
+    .section{border:1px solid #e2e8f0;border-radius:8px;margin-bottom:12px;overflow:hidden}
+    .section-title{background:#f1f5f9;padding:7px 14px;font-size:11px;font-weight:700;color:#64748b;letter-spacing:.5px;text-transform:uppercase;border-bottom:1px solid #e2e8f0}
+    .kv{display:flex;justify-content:space-between;padding:5px 14px;border-bottom:1px solid #f1f5f9;font-size:12px}
+    .kv:last-child{border:none}
+    .kk{color:#64748b}
+    table.items{width:100%;border-collapse:collapse}
+    table.items th{background:#006233;color:#fff;padding:7px 12px;text-align:right;font-size:11px}
+    table.items td{padding:7px 12px;border-bottom:1px solid #e2e8f0;font-size:12px}
+    table.items tr:last-child td{border-bottom:none}
+    table.items tr:nth-child(even) td{background:#f8fffe}
+    .total-row{background:#006233;color:#fff;padding:10px 14px;text-align:left;font-size:15px;font-weight:900;border-radius:0 0 8px 8px}
+    .sigs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:20px}
+    .sig{text-align:center;padding-top:45px;border-top:1px solid #94a3b8;font-size:10px;color:#64748b;font-weight:600}
+    .footer{text-align:center;font-size:9px;color:#94a3b8;margin-top:16px;padding-top:10px;border-top:1px solid #e2e8f0}
+    .crescent{color:#006233;font-size:24px}
+    @media print{body{padding:10px}}
+  </style></head>
+  <body>
+    <div class="flag-bar"></div>
+    <div class="header">
+      <div class="header-top">الجمهورية الجزائرية الديمقراطية الشعبية</div>
+      <div class="header-top">ولاية جيجل — دائرة الطاهير</div>
+      <div class="crescent">☪️ ☾</div>
+      <div class="header-org">بلدية وجانة</div>
+      <div class="header-sub">COMMUNE DE TAHER — WILAYA DE JIJEL</div>
+      <div class="title">${o.type==='in'?'وصل استلام بضاعة':'وصل صرف بضاعة'}</div>
+      <div><span class="type-badge">${o.type==='in'?'📥 دخول إلى المخزن':'📤 خروج من المخزن'}</span></div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta-item"><span style="color:#64748b">رقم الوصل: </span><strong>${o.ref}</strong></div>
+      <div class="meta-item"><span style="color:#64748b">التاريخ: </span><strong>${o.date}</strong></div>
+      ${o.refBon?`<div class="meta-item"><span style="color:#64748b">وصل الشراء: </span><strong>${o.refBon}</strong></div>`:''}
+      <div class="meta-item"><span style="color:#64748b">الوقت: </span><strong>${nowStr()}</strong></div>
+      ${o.recvName?`<div class="meta-item"><span style="color:#64748b">مكان الاستلام: </span><strong>${o.recvName}</strong></div>`:''}
+    </div>
+    <!-- الأصناف -->
+    <div class="section">
+      <div class="section-title">📦 الأصناف (${o.items.length} صنف)</div>
+      <table class="items">
+        <thead><tr>
+          <th>#</th><th>الصنف</th><th>الفئة</th><th>الكمية</th><th>وحدة</th>
+          ${o.type==='in'?'<th>سعر الوحدة</th><th>المجموع</th>':''}
+        </tr></thead>
+        <tbody>
+          ${o.items.map((it,i)=>{const p=PRODS.find(x=>x.id===it.pid);return`<tr>
+            <td>${i+1}</td>
+            <td><strong>${p?.name||'—'}</strong></td>
+            <td>${p?.cat||'—'}</td>
+            <td style="font-weight:700;color:${o.type==='in'?'#065f46':'#991b1b'}">${fmt(it.qty)}</td>
+            <td>${p?.unit||'—'}</td>
+            ${o.type==='in'?`<td>${it.unitCost?fmt(it.unitCost)+' دج':'—'}</td><td style="font-weight:700;color:#065f46">${it.unitCost?fmt(it.qty*it.unitCost)+' دج':'—'}</td>`:''}
+          </tr>`;}).join('')}
+        </tbody>
+      </table>
+      ${o.type==='in'&&grandTotal>0?`<div class="total-row">💰 المجموع الكلي: ${fmt(grandTotal)} دج</div>`:''}
+    </div>
+    ${sup?`<div class="section"><div class="section-title">🏢 بيانات المورد</div>${[['اسم المورد',sup.name],['الهاتف',sup.phone||'—'],['العنوان',sup.address||'—'],['السجل التجاري',sup.rc||'—'],['رقم ICE',sup.ice||'—'],['البنك',sup.bank||'—']].map(([k,v])=>`<div class="kv"><span class="kk">${k}</span><strong>${v}</strong></div>`).join('')}</div>`:''}
+    ${recv?`<div class="section"><div class="section-title">👤 بيانات المستلِم</div>${[['الاسم',recv.name],['المصلحة',recv.dept],['الرتبة',recv.grade||'—'],['الهاتف',recv.phone||'—']].map(([k,v])=>`<div class="kv"><span class="kk">${k}</span><strong>${v}</strong></div>`).join('')}</div>`:''}
+    ${o.note?`<div class="section"><div class="section-title">📝 ملاحظات</div><div style="padding:10px 14px;font-size:12px">${o.note}</div></div>`:''}
+    <div class="sigs">
+      <div class="sig">${o.type==='in'?'ممثل المورد':'المخزني (المسلِّم)'}</div>
+      <div class="sig">${o.type==='in'?'المخزني (المستلِم)':'المستلِم'}<br><small style="font-size:10px">${recv?recv.name:''}</small></div>
+      <div class="sig">رئيس البلدية / الأمين العام</div>
+    </div>
+    <div class="footer">
+      SIGMAC Pro v4.0 — بلدية وجانة • ولاية جيجل • ${nowStr()}<br>
+      هذا الوصل وثيقة إدارية رسمية
+    </div>
+    <div class="flag-bar" style="margin-top:14px"></div>
+  </body></html>`;
+  const w=window.open('','_blank','width=800,height=950');
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>w.print(),600);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  OPERATIONS
+// ═══════════════════════════════════════════════════════════
+function pageOps(){
+  return`
+  <div class="ph"><div><h2>🔄 سجل العمليات</h2><p>${OPS.length} عملية مسجّلة</p></div></div>
+  <div class="card" style="margin-bottom:14px"><div class="cb" style="display:flex;gap:10px;flex-wrap:wrap">
+    <select class="fi" id="ops-type" style="width:auto" onchange="filterOps()"><option value="">كل العمليات</option><option value="in">📥 دخول</option><option value="out">📤 خروج</option></select>
+    <input class="fi" placeholder="🔍 بحث بالمرجع..." id="ops-q" oninput="filterOps()" style="flex:1;min-width:150px"/>
+  </div></div>
+  <div class="card"><div class="tw" id="ops-table">${renderOpsTable(OPS)}</div></div>`;
+}
+function renderOpsTable(list){
+  return`<table>
+    <thead><tr><th>المرجع</th><th>النوع</th><th>الأصناف</th><th>المجموع</th><th>الطرف</th><th>التاريخ</th><th>ملاحظة</th><th></th></tr></thead>
+    <tbody>${list.map(o=>{
+      const totalQty=o.items.reduce((x,it)=>x+it.qty,0);
+      const totalVal=o.items.reduce((x,it)=>x+it.qty*(it.unitCost||0),0);
+      const firstProd=PRODS.find(x=>x.id===o.items[0]?.pid);
+      return`<tr>
+        <td><code style="background:rgba(0,0,0,.3);padding:2px 6px;border-radius:5px;font-size:10px">${o.ref}</code></td>
+        <td><span class="badge ${o.type==='in'?'badge-green':'badge-red'}">${o.type==='in'?'📥 دخول':'📤 خروج'}</span></td>
+        <td>
+          <div style="font-weight:600;font-size:12px">${o.items.length>1?`${o.items.length} أصناف`:(firstProd?.name||'—')}</div>
+          ${o.items.length>1?`<div style="font-size:10px;color:var(--txt3)">${o.items.map(it=>prodName(it.pid)).slice(0,2).join('، ')}${o.items.length>2?'...':''}</div>`:''}
+        </td>
+        <td style="font-weight:700;color:${o.type==='in'?'var(--dz-green3)':'var(--dz-red3)'}">
+          ${o.type==='in'?'+':'-'}${fmt(totalQty)}
+          ${totalVal>0?`<div style="font-size:10px;color:var(--gold)">${fmt(totalVal)} دج</div>`:''}
+        </td>
+        <td style="font-size:11px">${o.type==='in'?supName(o.supId):recvName(o.recvId)}</td>
+        <td style="font-size:11px">${o.date}</td>
+        <td style="font-size:11px;color:var(--txt3)">${o.note||'—'}</td>
+        <td><button class="btn btn-secondary btn-sm" onclick="printReceipt(${o.id})">🖨️</button></td>
+      </tr>`;}).join('')||'<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--txt3)">لا توجد نتائج</td></tr>'}
+    </tbody></table>`;
+}
+function filterOps(){
+  const t=document.getElementById('ops-type').value;
+  const q=(document.getElementById('ops-q').value||'').toLowerCase();
+  const list=OPS.filter(o=>(!t||o.type===t)&&(!q||o.ref.toLowerCase().includes(q)||o.items.some(it=>prodName(it.pid).toLowerCase().includes(q))));
+  document.getElementById('ops-table').innerHTML=renderOpsTable(list);
+}
+function bindOps(){}
+
+// ═══════════════════════════════════════════════════════════
+//  SUPPLIERS
+// ═══════════════════════════════════════════════════════════
+function pageSuppliers(){
+  return`
+  <div class="ph">
+    <div><h2>🏢 الموردون</h2><p>${SUPPLIERS.length} مورد مسجّل</p></div>
+    <button class="btn btn-primary" onclick="openSupModal()">＋ إضافة مورد</button>
+  </div>
+  <div class="g2" id="sup-grid">${renderSupGrid()}</div>
+  <div id="sup-modal"></div>`;
+}
+function renderSupGrid(){
+  return SUPPLIERS.map(s=>{
+    const inOps=OPS.filter(o=>o.type==='in'&&o.supId===s.id);
+    const total=inOps.reduce((x,o)=>x+o.items.reduce((a,it)=>a+it.qty*(it.unitCost||0),0),0);
+    return`<div class="card" style="padding:0;overflow:hidden">
+      <div style="background:var(--grad);padding:14px 16px;display:flex;align-items:center;gap:12px">
+        <div class="av" style="background:rgba(255,255,255,.15);width:42px;height:42px;font-size:18px;border:2px solid rgba(255,255,255,.3)">🏢</div>
+        <div>
+          <div style="font-weight:800;font-size:14px;color:#fff">${s.name}</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65)">${s.rc||'—'} • ${s.ice||'—'}</div>
+        </div>
+      </div>
+      <div class="cb">
+        ${[['📞',s.phone||'—'],['📍',s.address||'—'],['🏦',s.bank||'—']].map(([ic,v])=>`<div style="display:flex;gap:8px;padding:3px 0;font-size:12px"><span>${ic}</span><span style="color:var(--txt2)">${v}</span></div>`).join('')}
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:space-between">
+          <div style="text-align:center"><div style="font-size:18px;font-weight:800;color:var(--gold)">${inOps.length}</div><div style="font-size:10px;color:var(--txt3)">عملية</div></div>
+          <div style="text-align:center"><div style="font-size:15px;font-weight:800;color:var(--dz-green3)">${fmt(total)}</div><div style="font-size:10px;color:var(--txt3)">دج إجمالاً</div></div>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="width:100%;margin-top:10px" onclick="showSupDetail(${s.id})">📊 التفاصيل</button>
+      </div>
+    </div>`;}).join('');
+}
+function showSupDetail(sid){
+  const s=SUPPLIERS.find(x=>x.id===sid);if(!s)return;
+  const ops=OPS.filter(o=>o.type==='in'&&o.supId===sid);
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod mod-wide">
+      <div class="moh"><span class="moT">🏢 ${s.name}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+      <div class="mob">
+        <div class="g2" style="margin-bottom:14px">
+          <div class="detail-panel">${[['الهاتف',s.phone||'—'],['العنوان',s.address||'—'],['رقم ICE',s.ice||'—'],['السجل التجاري',s.rc||'—'],['البنك',s.bank||'—']].map(([k,v])=>`<div class="kv"><span class="kk">${k}</span><span class="kv-val">${v}</span></div>`).join('')}</div>
+          <div>
+            <div style="background:var(--grad);border-radius:12px;padding:14px;text-align:center;margin-bottom:10px">
+              <div style="font-size:26px;font-weight:900;color:#fff">${ops.length}</div>
+              <div style="color:rgba(255,255,255,.8);font-size:11px">عملية توريد</div>
+            </div>
+            <div style="background:rgba(0,122,61,.1);border:1px solid var(--dz-green3);border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:20px;font-weight:900;color:var(--dz-green3)">${fmt(ops.reduce((x,o)=>x+o.items.reduce((a,it)=>a+it.qty*(it.unitCost||0),0),0))}</div>
+              <div style="color:var(--txt3);font-size:11px">دج إجمالي المشتريات</div>
+            </div>
+          </div>
+        </div>
+        <div style="max-height:280px;overflow-y:auto">
+          <table><thead><tr><th>المرجع</th><th>الأصناف</th><th>الكمية الكلية</th><th>المجموع</th><th>التاريخ</th><th></th></tr></thead>
+          <tbody>${ops.map(o=>`<tr>
+            <td><code style="font-size:10px">${o.ref}</code></td>
+            <td style="font-size:11px">${o.items.map(it=>prodName(it.pid)).join('، ')}</td>
+            <td>${fmt(o.items.reduce((x,it)=>x+it.qty,0))}</td>
+            <td style="color:var(--dz-green3);font-weight:700">${fmt(o.items.reduce((x,it)=>x+it.qty*(it.unitCost||0),0))} دج</td>
+            <td style="font-size:11px">${o.date}</td>
+            <td><button class="btn btn-secondary btn-sm" onclick="printReceipt(${o.id})">🖨️</button></td>
+          </tr>`).join('')||'<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--txt3)">لا توجد عمليات</td></tr>'}</tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend',html);
+}
+function openSupModal(sid){
+  const s=sid?SUPPLIERS.find(x=>x.id===sid):{id:0,name:'',phone:'',address:'',ice:'',rc:'',bank:''};
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod"><div class="moh"><span class="moT">${sid?'✏️ تعديل المورد':'➕ إضافة مورد'}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+    <div class="mob">
+      <div class="fg"><label class="fl">اسم المورد *</label><input class="fi" id="sf-name" value="${s.name}"/></div>
+      <div class="fr"><div class="fg"><label class="fl">الهاتف</label><input class="fi" id="sf-phone" value="${s.phone||''}"/></div>
+      <div class="fg"><label class="fl">العنوان</label><input class="fi" id="sf-addr" value="${s.address||''}"/></div></div>
+      <div class="fr3">
+        <div class="fg"><label class="fl">رقم ICE</label><input class="fi" id="sf-ice" value="${s.ice||''}"/></div>
+        <div class="fg"><label class="fl">السجل التجاري</label><input class="fi" id="sf-rc" value="${s.rc||''}"/></div>
+        <div class="fg"><label class="fl">البنك</label><input class="fi" id="sf-bank" value="${s.bank||''}"/></div>
+      </div>
+    </div>
+    <div class="mof"><button class="btn btn-secondary" onclick="this.closest('.mol').remove()">إلغاء</button>
+    <button class="btn btn-primary" onclick="saveSup(${sid||0})">💾 حفظ</button></div>
+    </div></div>`;
+  document.getElementById('sup-modal').innerHTML=html;
+}
+function saveSup(sid){
+  const name=document.getElementById('sf-name').value.trim();
+  if(!name){alert('الرجاء إدخال اسم المورد');return}
+  const d={name,phone:document.getElementById('sf-phone').value,address:document.getElementById('sf-addr').value,ice:document.getElementById('sf-ice').value,rc:document.getElementById('sf-rc').value,bank:document.getElementById('sf-bank').value};
+  if(sid){Object.assign(SUPPLIERS.find(x=>x.id===sid),d);addLog(`تعديل مورد: ${name}`);}
+  else{SUPPLIERS.push({id:++nextId,...d});addLog(`إضافة مورد: ${name}`);}
+  document.querySelector('.mol')?.remove();
+  go('suppliers');
+}
+function bindSuppliers(){}
+
+// ═══════════════════════════════════════════════════════════
+//  RECEIVERS
+// ═══════════════════════════════════════════════════════════
+function pageReceivers(){
+  return`
+  <div class="ph">
+    <div><h2>👤 المستلمون</h2><p>${RECEIVERS.length} مستلِم مسجّل</p></div>
+    <button class="btn btn-primary" onclick="openRecvModal()">＋ إضافة مستلِم</button>
+  </div>
+  <div class="g3" id="recv-grid">${renderRecvGrid()}</div>
+  <div id="recv-modal"></div>`;
+}
+function renderRecvGrid(){
+  return RECEIVERS.map(r=>{
+    const ops=OPS.filter(o=>o.type==='out'&&o.recvId===r.id);
+    const total=ops.reduce((x,o)=>x+o.items.reduce((a,it)=>a+it.qty,0),0);
+    return`<div class="card" style="padding:0;overflow:hidden">
+      <div style="padding:14px;text-align:center;border-bottom:1px solid var(--border)">
+        <div class="av" style="background:var(--dz-green2);width:46px;height:46px;font-size:16px;margin:0 auto 8px">${r.name.slice(0,2)}</div>
+        <div style="font-weight:700;font-size:13px;color:#fff">${r.name}</div>
+        <div style="font-size:10px;color:var(--txt3);margin-top:2px">${r.grade||''}</div>
+        <div style="margin-top:4px"><span class="badge badge-primary">${r.dept}</span></div>
+      </div>
+      <div class="cb" style="padding:12px 14px">
+        <div style="font-size:10px;color:var(--txt3);margin-bottom:4px">📞 ${r.phone||'—'}</div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px">
+          <div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--gold)">${ops.length}</div><div style="font-size:9px;color:var(--txt3)">عملية</div></div>
+          <div style="text-align:center"><div style="font-size:15px;font-weight:800;color:var(--dz-green3)">${fmt(total)}</div><div style="font-size:9px;color:var(--txt3)">وحدة</div></div>
+        </div>
+        <button class="btn btn-secondary btn-sm" style="width:100%;margin-top:10px" onclick="showReceiverDetail(${r.id})">📊 تفاصيل</button>
+      </div>
+    </div>`;}).join('');
+}
+function showReceiverDetail(rid){
+  const r=RECEIVERS.find(x=>x.id===rid);if(!r)return;
+  const ops=OPS.filter(o=>o.type==='out'&&o.recvId===rid);
+  const itemStats={};
+  ops.forEach(o=>o.items.forEach(it=>{itemStats[it.pid]=(itemStats[it.pid]||0)+it.qty}));
+  const topItems=Object.entries(itemStats).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod mod-wide">
+      <div class="moh"><span class="moT">👤 ${r.name}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+      <div class="mob">
+        <div class="g2" style="margin-bottom:14px">
+          <div class="detail-panel">${[['الاسم',r.name],['المصلحة',r.dept],['الرتبة',r.grade||'—'],['الهاتف',r.phone||'—']].map(([k,v])=>`<div class="kv"><span class="kk">${k}</span><span class="kv-val">${v}</span></div>`).join('')}</div>
+          <div>
+            <div style="background:var(--grad);border-radius:12px;padding:14px;text-align:center;margin-bottom:10px">
+              <div style="font-size:26px;font-weight:900;color:#fff">${ops.length}</div>
+              <div style="color:rgba(255,255,255,.8);font-size:11px">عملية استلام</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:700;color:var(--txt3);margin-bottom:8px">الأصناف الأكثر استهلاكاً</div>
+        ${topItems.map(([pid,qty])=>{const p=PRODS.find(x=>x.id==pid);const mx=topItems[0][1];return`<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${p?.name||'—'}</span><strong style="color:var(--gold)">${fmt(qty)} ${p?.unit||''}</strong></div><div class="prbar"><div class="prbr" style="width:${(qty/mx)*100}%;background:var(--dz-green2)"></div></div></div>`;}).join('')}
+        <div style="font-size:11px;font-weight:700;color:var(--txt3);margin:14px 0 8px">سجل العمليات التفصيلي</div>
+        <div style="max-height:200px;overflow-y:auto">
+          <table><thead><tr><th>المرجع</th><th>الأصناف</th><th>الكمية</th><th>التاريخ</th><th>ملاحظة</th><th></th></tr></thead>
+          <tbody>${ops.map(o=>`<tr>
+            <td><code style="font-size:10px">${o.ref}</code></td>
+            <td style="font-size:11px">${o.items.map(it=>prodName(it.pid)).join('، ')}</td>
+            <td style="color:var(--dz-red3);font-weight:700">-${fmt(o.items.reduce((x,it)=>x+it.qty,0))}</td>
+            <td style="font-size:11px">${o.date}</td>
+            <td style="font-size:11px;color:var(--txt3)">${o.note||'—'}</td>
+            <td><button class="btn btn-secondary btn-sm" onclick="printReceipt(${o.id})">🖨️</button></td>
+          </tr>`).join('')||'<tr><td colspan="6" style="text-align:center;padding:16px;color:var(--txt3)">لا توجد عمليات</td></tr>'}</tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  document.body.insertAdjacentHTML('beforeend',html);
+}
+function openRecvModal(rid){
+  const r=rid?RECEIVERS.find(x=>x.id===rid):{id:0,name:'',dept:'',grade:'',phone:''};
+  const html=`<div class="mol" onclick="if(event.target===this)this.remove()">
+    <div class="mod"><div class="moh"><span class="moT">${rid?'✏️ تعديل':'➕ إضافة مستلِم'}</span><button class="ib" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:white" onclick="this.closest('.mol').remove()">✕</button></div>
+    <div class="mob">
+      <div class="fr"><div class="fg"><label class="fl">الاسم الكامل *</label><input class="fi" id="rf-name" value="${r.name}"/></div>
+      <div class="fg"><label class="fl">المصلحة</label><input class="fi" id="rf-dept" value="${r.dept||''}"/></div></div>
+      <div class="fr"><div class="fg"><label class="fl">الرتبة الوظيفية</label><input class="fi" id="rf-grade" value="${r.grade||''}"/></div>
+      <div class="fg"><label class="fl">الهاتف</label><input class="fi" id="rf-phone" value="${r.phone||''}"/></div></div>
+    </div>
+    <div class="mof"><button class="btn btn-secondary" onclick="this.closest('.mol').remove()">إلغاء</button>
+    <button class="btn btn-primary" onclick="saveRecv(${rid||0})">💾 حفظ</button></div>
+    </div></div>`;
+  document.getElementById('recv-modal').innerHTML=html;
+}
+function saveRecv(rid){
+  const name=document.getElementById('rf-name').value.trim();
+  if(!name){alert('الرجاء إدخال الاسم');return}
+  const d={name,dept:document.getElementById('rf-dept').value,grade:document.getElementById('rf-grade').value,phone:document.getElementById('rf-phone').value};
+  if(rid){Object.assign(RECEIVERS.find(x=>x.id===rid),d);addLog(`تعديل مستلِم: ${name}`);}
+  else{RECEIVERS.push({id:++nextId,...d});addLog(`إضافة مستلِم: ${name}`);}
+  document.querySelector('.mol')?.remove();
+  go('receivers');
+}
+function bindReceivers(){}
+
+// ═══════════════════════════════════════════════════════════
+//  REPORTS
+// ═══════════════════════════════════════════════════════════
+function pageReports(){
+  return`
+  <div class="ph"><div><h2>📈 الإحصائيات والتقارير</h2></div></div>
+  <div class="tabs" id="rep-tabs">
+    ${['عام','الأصناف','المستلمون','الموردون','التحركات'].map((t,i)=>`<div class="tab ${i===0?'on':''}" onclick="switchRepTab(${i},this)">${t}</div>`).join('')}
+  </div>
+  <div id="rep-body">${repTab0()}</div>`;
+}
+function switchRepTab(i,el){
+  document.querySelectorAll('#rep-tabs .tab').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('rep-body').innerHTML=[repTab0,repTab1,repTab2,repTab3,repTab4][i]?.()??'';
+}
+function repTab0(){
+  const tv=PRODS.reduce((x,p)=>x+p.qty*p.price,0);
+  const inTotal=OPS.filter(o=>o.type==='in').reduce((x,o)=>x+o.items.reduce((a,it)=>a+it.qty*(it.unitCost||0),0),0);
+  const outQty=OPS.filter(o=>o.type==='out').reduce((x,o)=>x+o.items.reduce((a,it)=>a+it.qty,0),0);
+  const cats=CATS.map(c=>{const ps=PRODS.filter(p=>p.cat===c);return{cat:c,n:ps.length,v:ps.reduce((x,p)=>x+p.qty*p.price,0)};}).filter(c=>c.n>0);
+  const maxV=Math.max(...cats.map(c=>c.v),1);
+  return`
+  <div class="stats-grid">
+    ${[{ic:'💰',v:fmt(tv)+' دج',lb:'قيمة المخزون الإجمالية',c:'var(--purple)'},{ic:'📥',v:fmt(inTotal)+' دج',lb:'إجمالي المشتريات',c:'var(--dz-green3)'},{ic:'📤',v:fmt(outQty),lb:'إجمالي الوحدات المصروفة',c:'var(--dz-red3)'},{ic:'📦',v:PRODS.length,lb:'إجمالي الأصناف',c:'var(--cyan)'},{ic:'🏢',v:SUPPLIERS.length,lb:'الموردون',c:'var(--gold)'},{ic:'👤',v:RECEIVERS.length,lb:'المستلمون',c:'var(--orange)'}].map(s=>`<div class="stat-card" style="--sc:${s.c}"><div class="stat-ic">${s.ic}</div><div class="stat-val" style="color:${s.c}">${s.v}</div><div class="stat-lbl">${s.lb}</div></div>`).join('')}
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">📊 توزيع القيمة حسب الفئة</span></div>
+    <div class="cb">
+      ${cats.map(c=>`<div style="margin-bottom:12px">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+          <span>${c.cat} <span class="badge badge-gray">${c.n}</span></span>
+          <strong style="color:var(--purple)">${fmt(c.v)} دج <span style="color:var(--txt3);font-weight:400">(${((c.v/tv)*100).toFixed(1)}%)</span></strong>
+        </div>
+        <div class="prbar"><div class="prbr" style="width:${(c.v/maxV)*100}%;background:var(--grad)"></div></div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+function repTab1(){
+  const fo=flatOps();
+  const consumed={};fo.filter(o=>o.type==='out').forEach(o=>{consumed[o.pid]=(consumed[o.pid]||0)+o.qty});
+  const top=Object.entries(consumed).sort((a,b)=>b[1]-a[1]).slice(0,10);
+  const mx=top[0]?top[0][1]:1;
+  const stagnant=PRODS.filter(p=>{const d=p.lastMove?Math.ceil((new Date()-new Date(p.lastMove))/86400000):999;return d>30});
+  return`
+  <div class="g2">
+    <div class="card">
+      <div class="ch"><span class="ct">🔥 الأصناف الأكثر استهلاكاً</span></div>
+      <div class="cb">
+        ${top.map(([pid,qty],i)=>{const p=PRODS.find(x=>x.id==pid);if(!p)return'';return`<div style="margin-bottom:12px">
+          <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+            <span><strong style="color:var(--dz-green3)">#${i+1}</strong> ${p.name}</span>
+            <strong style="color:var(--gold)">${fmt(qty)} ${p.unit}</strong>
+          </div>
+          <div class="prbar"><div class="prbr" style="width:${(qty/mx)*100}%;background:var(--dz-green2)"></div></div>
+        </div>`;}).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="ch"><span class="ct">🐢 أصناف بحركة منعدمة (+30 يوم)</span></div>
+      <div class="cb" style="padding:0">
+        ${stagnant.map(p=>{const d=p.lastMove?Math.ceil((new Date()-new Date(p.lastMove))/86400000):999;return`<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between">
+          <div><div style="font-weight:600;font-size:12px">${p.name}</div><div style="font-size:10px;color:var(--txt3)">${p.cat}</div></div>
+          <span class="badge badge-orange">منذ ${d} يوم</span>
+        </div>`}).join('')||'<div style="padding:20px;text-align:center;color:var(--txt3)">لا توجد أصناف راكدة</div>'}
+      </div>
+    </div>
+  </div>`;
+}
+function repTab2(){
+  const rxStat={};
+  OPS.filter(o=>o.type==='out').forEach(o=>{if(o.recvId){if(!rxStat[o.recvId])rxStat[o.recvId]={qty:0,ops:0};o.items.forEach(it=>{rxStat[o.recvId].qty+=it.qty});rxStat[o.recvId].ops++;}});
+  const top=Object.entries(rxStat).sort((a,b)=>b[1].qty-a[1].qty);
+  const mx=top[0]?top[0][1].qty:1;
+  return`
+  <div class="card">
+    <div class="ch"><span class="ct">👤 ترتيب المستلمين حسب الاستهلاك</span></div>
+    <div class="cb">
+      ${top.map(([rid,{qty,ops}],i)=>{const r=RECEIVERS.find(x=>x.id==rid);if(!r)return'';return`<div style="margin-bottom:14px;cursor:pointer" onclick="showReceiverDetail(${r.id})">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:4px">
+          <span style="font-size:16px;font-weight:900;color:var(--dz-green3);width:24px">#${i+1}</span>
+          <div class="av" style="background:var(--dz-green2);width:32px;height:32px;font-size:11px">${r.name.slice(0,2)}</div>
+          <div style="flex:1"><div style="font-weight:600;font-size:12px">${r.name}</div><div style="font-size:10px;color:var(--txt3)">${r.dept} • ${ops} عملية</div></div>
+          <strong style="color:var(--gold);font-size:13px">${fmt(qty)}</strong>
+        </div>
+        <div class="prbar"><div class="prbr" style="width:${(qty/mx)*100}%;background:var(--grad)"></div></div>
+      </div>`;}).join('')||'<div style="color:var(--txt3)">لا توجد بيانات</div>'}
+    </div>
+  </div>`;
+}
+function repTab3(){
+  const supStat={};
+  OPS.filter(o=>o.type==='in').forEach(o=>{if(o.supId){if(!supStat[o.supId])supStat[o.supId]={qty:0,val:0,ops:0};o.items.forEach(it=>{supStat[o.supId].qty+=it.qty;supStat[o.supId].val+=it.qty*(it.unitCost||0)});supStat[o.supId].ops++;}});
+  const top=Object.entries(supStat).sort((a,b)=>b[1].val-a[1].val);
+  const mx=top[0]?top[0][1].val:1;
+  return`
+  <div class="card">
+    <div class="ch"><span class="ct">🏢 ترتيب الموردين حسب قيمة التوريد</span></div>
+    <div class="cb">
+      ${top.map(([sid,{val,ops}],i)=>{const s=SUPPLIERS.find(x=>x.id==sid);if(!s)return'';return`<div style="margin-bottom:14px;cursor:pointer" onclick="showSupDetail(${s.id})">
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:4px">
+          <span style="font-size:16px;font-weight:900;color:var(--gold);width:24px">#${i+1}</span>
+          <div style="flex:1"><div style="font-weight:600;font-size:12px">${s.name}</div><div style="font-size:10px;color:var(--txt3)">${ops} عملية</div></div>
+          <strong style="color:var(--dz-green3);font-size:12px">${fmt(val)} دج</strong>
+        </div>
+        <div class="prbar"><div class="prbr" style="width:${(val/mx)*100}%;background:var(--grad)"></div></div>
+      </div>`;}).join('')||'<div style="color:var(--txt3)">لا توجد بيانات</div>'}
+    </div>
+  </div>`;
+}
+function repTab4(){
+  const fo=flatOps();
+  const byDate={};fo.forEach(o=>{if(!byDate[o.date])byDate[o.date]={in:0,out:0};byDate[o.date][o.type]++;});
+  const dates=Object.keys(byDate).sort().slice(-14);
+  return`
+  <div class="card">
+    <div class="ch"><span class="ct">📅 حركة المخزون (آخر 14 يوم)</span></div>
+    <div class="cb">
+      <div style="display:flex;gap:14px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:12px;height:12px;background:var(--dz-green3);border-radius:2px;display:inline-block"></span>دخول</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><span style="width:12px;height:12px;background:var(--dz-red3);border-radius:2px;display:inline-block"></span>خروج</div>
+      </div>
+      <div style="display:flex;align-items:flex-end;gap:8px;height:100px">
+        ${dates.map(d=>{const v=byDate[d];const mx2=Math.max(...dates.map(x=>byDate[x].in+byDate[x].out),1);return`<div style="flex:1;display:flex;flex-direction:column;gap:2px;align-items:center">
+          <div style="width:100%;background:var(--dz-green3);border-radius:3px 3px 0 0;height:${Math.max(4,(v.in/mx2)*90)}px" title="دخول: ${v.in}"></div>
+          <div style="width:100%;background:var(--dz-red3);border-radius:3px 3px 0 0;height:${Math.max(4,(v.out/mx2)*90)}px" title="خروج: ${v.out}"></div>
+          <div style="font-size:8px;color:var(--txt3);margin-top:3px;writing-mode:vertical-rl">${d.slice(5)}</div>
+        </div>`;}).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="ch"><span class="ct">📋 جميع العمليات</span></div>
+    <div class="tw">${renderOpsTable(OPS)}</div>
+  </div>`;
+}
+function bindReports(){}
+
+// ═══════════════════════════════════════════════════════════
+//  ALERTS
+// ═══════════════════════════════════════════════════════════
+function pageAlerts(){
+  const a=calcAlerts();
+  const expiring=PRODS.filter(p=>{if(!p.expiry)return false;const d=diffDays(p.expiry);return d>=0&&d<=60});
+  const stagnant=PRODS.filter(p=>{const d=p.lastMove?Math.ceil((new Date()-new Date(p.lastMove))/86400000):999;return d>60});
+  const zero=PRODS.filter(p=>p.qty===0);
+  const low=PRODS.filter(p=>p.qty>0&&p.qty<p.min);
+  const warn=PRODS.filter(p=>p.qty>=p.min&&p.qty<p.min*1.5);
+  return`
+  <div class="ph"><div><h2>🔔 التنبيهات</h2><p>${a.length} تنبيه نشط</p></div></div>
+  ${a.length===0?'<div class="al al-g">✅ لا توجد تنبيهات — المخزون في وضع ممتاز</div>':''}
+  <div class="g2" style="margin-bottom:16px">
+    ${[{ic:'🚫',lb:'نفاد تام',list:zero,type:'e'},{ic:'⚠️',lb:'مخزون حرج',list:low,type:'e'},{ic:'🟡',lb:'تحذير مخزون',list:warn,type:'w'},{ic:'⏰',lb:'صلاحية وشيكة',list:expiring,type:'w'},{ic:'🐢',lb:'حركة منعدمة (60+ يوم)',list:stagnant,type:'i'}].map(sec=>`
+      <div class="card">
+        <div class="ch">
+          <span class="ct">${sec.ic} ${sec.lb}</span>
+          <span class="badge ${sec.list.length>0?'badge-red':'badge-green'}">${sec.list.length}</span>
+        </div>
+        <div style="max-height:220px;overflow-y:auto">
+          ${sec.list.length===0?`<div style="padding:16px;text-align:center;color:var(--txt3);font-size:12px">✅ لا يوجد</div>`:
+            sec.list.map(p=>`<div style="padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between">
+              <div>
+                <div style="font-weight:600;font-size:12px">${p.name}</div>
+                <div style="font-size:10px;color:var(--txt3)">${p.cat} ${p.expiry&&sec.ic==='⏰'?`• ينتهي ${p.expiry}`:''}</div>
+              </div>
+              <div style="text-align:left">${statusBadge(p.qty,p.min)}</div>
+            </div>`).join('')}
+        </div>
+      </div>`).join('')}
+  </div>
+  <div class="card">
+    <div class="ch"><span class="ct">📋 قائمة التنبيهات الكاملة</span></div>
+    <div class="cb" style="padding:10px 16px">
+      ${a.map(x=>`<div class="al ${x.type==='e'?'al-e':x.type==='w'?'al-w':'al-i'}">${x.type==='e'?'🚨':x.type==='w'?'⚠️':'ℹ️'} ${x.msg}</div>`).join('')||'<div class="al al-g">✅ لا توجد تنبيهات</div>'}
+    </div>
+  </div>`;
+}
+function bindAlerts(){}
+
+// ═══════════════════════════════════════════════════════════
+//  USERS & LOGS
+// ═══════════════════════════════════════════════════════════
+function pageUsers(){
+  return`
+  <div class="ph"><div><h2>👥 المستخدمون والصلاحيات</h2></div></div>
+  <div class="g2">
+    ${Object.entries(ROLES).map(([k,v])=>`<div class="card" style="padding:18px;display:flex;align-items:center;gap:14px">
+      <div style="width:52px;height:52px;background:${v.color};border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 14px ${v.color}55">${v.ic}</div>
+      <div>
+        <div style="font-weight:800;font-size:15px;color:#fff">${v.label}</div>
+        <span class="badge badge-gray">${k}</span>
+        <div style="font-size:11px;color:var(--txt3);margin-top:6px">${{PAPC:'صلاحية كاملة — جميع الوظائف',SG:'اطلاع وإشراف وتقارير',MAG:'تسجيل الخروج وإدارة المخزن',ACH:'تسجيل الدخول والتعامل مع الموردين'}[k]}</div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+function pageLogs(){
+  return`
+  <div class="ph"><div><h2>📋 سجل النشاطات</h2><p>${LOGS.length} نشاط</p></div></div>
+  <div class="card"><div class="tw">
+    <table>
+      <thead><tr><th>#</th><th>الصفة</th><th>النشاط</th><th>التوقيت</th></tr></thead>
+      <tbody>
+        ${LOGS.map((l,i)=>`<tr>
+          <td style="color:var(--txt3);font-size:11px">${i+1}</td>
+          <td>${roleBadge(l.uid)}</td>
+          <td style="font-size:12px">${l.action}</td>
+          <td style="font-size:11px;color:var(--txt3)">${l.time}</td>
+        </tr>`).join('')||'<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--txt3)">لا توجد نشاطات</td></tr>'}
+      </tbody>
+    </table>
+  </div></div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+initLogin();
+</script>
+</body>
+</html>
